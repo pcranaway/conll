@@ -14,5 +14,7 @@ fn main() {
 
     let lines: Vec<String> = reader.lines().map(|line| line.unwrap()).collect();
 
-    conllu::parser::parse(lines)
+    let treebank = conllu::parser::parse(lines).unwrap();
+
+    dbg!(treebank);
 }
