@@ -25,6 +25,8 @@ pub fn parse_word(input: &str) -> Result<Word> {
         return Err(anyhow!("invalid word ID"));
     }
 
+    let upos = parse_upos(upos)?;
+
     todo!()
 }
 
