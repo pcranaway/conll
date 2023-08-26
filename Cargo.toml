@@ -2,9 +2,15 @@
 name = "conll"
 version = "0.1.0"
 edition = "2021"
+authors = ["Alexander P"]
+license = "LICENSE"
+repository = "https://github.com/pcranaway/conllu"
+homepage = "https://github.com/pcranaway/conllu"
+keywords = ["conll", "conll-u", "conllu", "treebank", "nlp", "language", "natural-language", "linguistics"]
 
 [[bin]]
 name = "parse"
 
 [dependencies]
 anyhow = "1.0.75"
+argh = "0.1.12"
