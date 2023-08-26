@@ -5,19 +5,20 @@ use anyhow::{anyhow, Result};
 /// correct form.
 // TODO: Add context including line number for debugging
 pub fn parse_word(input: &str) -> Result<Word> {
-    let split: Vec<&str> = input.split("\t").collect();
+    let mut split = input.split("\t");
 
     // read all fields
-    let id = &split[0];
-    let form = &split[1];
-    let lemma = &split[2];
-    let upos = &split[3];
-    let xpos = &split[4];
-    let feats = &split[5];
-    let head = &split[6];
-    let deprel = &split[7];
-    let deps = &split[8];
-    let misc = &split[9];
+
+    let id = split.next().unwrap();
+    let form = split.next().unwrap();
+    let lemma = split.next().unwrap();
+    let upos = split.next().unwrap();
+    let xpos = split.next().unwrap();
+    let feats = split.next().unwrap();
+    let head = split.next().unwrap();
+    let deprel = split.next().unwrap();
+    let deps = split.next().unwrap();
+    let misc = split.next().unwrap();
 
     // validate id
     if !is_valid_id(id) {
