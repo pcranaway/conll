@@ -1,9 +1,9 @@
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct Treebank {
     pub sentences: Vec<Sentence>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct Sentence {
     pub words: Vec<Word>,
 }
