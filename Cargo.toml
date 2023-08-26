@@ -1,6 +1,6 @@
 [package]
 name = "conll"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 authors = ["Alexander P"]
 license = "MIT"
@@ -16,3 +16,4 @@ name = "parse"
 anyhow = "1.0.75"
 argh = "0.1.12"
 regex = "1.9.3"
+
