@@ -1,20 +1,34 @@
 use std::{
-    env,
     fs::File,
     io::{BufRead, BufReader},
 };
 
+use argh::FromArgs;
 use conll::conllu;
 
-fn main() {
-    let file_path = env::args().nth(1).expect("expected file path");
+#[derive(FromArgs)]
+/// Parses a Treebank from a CoNLL-U file.
+struct Args {
+    /// the path of the .conllu file
+    #[argh(positional)]
+    file_path: String,
 
-    let file = File::open(file_path).unwrap();
+    /// whether it should be silent (not print out the parsed Treebank)
+    #[argh(switch, short = 's')]
+    silent: bool,
+}
+
+fn main() {
+    let args: Args = argh::from_env();
+
+    let file = File::open(args.file_path).unwrap();
     let reader = BufReader::new(file);
 
     let lines: Vec<String> = reader.lines().map(|line| line.unwrap()).collect();
 
     let treebank = conllu::parser::parse(lines).unwrap();
 
-    dbg!(treebank);
+    if !args.silent {
+        dbg!(treebank);
+    }
 }
