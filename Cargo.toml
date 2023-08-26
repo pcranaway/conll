@@ -6,7 +6,7 @@ authors = ["Alexander P"]
 license = "LICENSE"
 repository = "https://github.com/pcranaway/conllu"
 homepage = "https://github.com/pcranaway/conllu"
-keywords = ["conll", "conll-u", "conllu", "treebank", "nlp", "language", "natural-language", "linguistics"]
+keywords = ["conll", "conll-u", "conllu", "treebank", "nlp"]
 
 [[bin]]
 name = "parse"
