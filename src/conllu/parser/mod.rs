@@ -1,11 +1,11 @@
 use self::line::parse_line;
-
 use super::treebank::{Sentence, Treebank};
+use anyhow::Result;
 
 pub mod line;
 pub mod sentence;
 
-pub fn parse(lines: Vec<String>) {
+pub fn parse(lines: Vec<String>) -> Result<Treebank> {
     // parsing state
     let mut treebank = Treebank::default();
     let mut sentence = Sentence::default();
@@ -29,10 +29,12 @@ pub fn parse(lines: Vec<String>) {
                 sentence = Sentence::default();
             }
             line::Line::Word(line) => {
-                let word = sentence::parse_word(&line).unwrap();
+                let word = sentence::parse_word(&line)?;
 
                 sentence.words.push(word);
             }
         }
     }
+
+    Ok(treebank)
 }
