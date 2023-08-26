@@ -1,10 +1,11 @@
 use crate::conllu::treebank::{Upos, Word};
 use anyhow::{anyhow, Result};
+use regex::Regex;
 
 /// Parses a word line, extracting all fields, validating them, and converting them to their
 /// correct form.
 // TODO: Add context including line number for debugging
-pub fn parse_word(input: &str) -> Result<Word> {
+pub fn parse_word(regex: &Regex, input: &str) -> Result<Word> {
     let mut split = input.split("\t");
 
     // read all fields
@@ -21,7 +22,7 @@ pub fn parse_word(input: &str) -> Result<Word> {
     let misc = split.next().unwrap();
 
     // validate id
-    if !is_valid_id(id) {
+    if !is_valid_id(&regex, id) {
         return Err(anyhow!("invalid word ID {}", id));
     }
 
@@ -60,7 +61,7 @@ pub fn parse_word(input: &str) -> Result<Word> {
 
     // validate head
     if !is_unspecified(head) {
-        if is_valid_id(head) {
+        if is_valid_id(&regex, head) {
             word.head = Some(head.to_string());
         } else {
             return Err(anyhow!("invalid head"));
@@ -93,27 +94,8 @@ pub fn is_unspecified(input: &str) -> bool {
 }
 
 /// Checks if a string is a valid word ID, as defined by CoNNL-U.
-pub fn is_valid_id(input: &str) -> bool {
-    if input.contains("-") {
-        // range, for multiword tokens
-        let mut split = input.split("-");
-
-        let lower = split.next().unwrap();
-        let upper = split.next().unwrap();
-
-        return lower.parse::<u32>().is_ok() && upper.parse::<u32>().is_ok();
-    } else if input.contains(".") {
-        // used for empty nodes?
-        let mut split = input.split(".");
-
-        let lower = split.next().unwrap();
-        let upper = split.next().unwrap();
-
-        return lower.parse::<u32>().is_ok() && upper.parse::<u32>().is_ok();
-    } else {
-        // regular id
-        return input.parse::<u32>().is_ok();
-    }
+pub fn is_valid_id(regex: &Regex, input: &str) -> bool {
+    regex.is_match(input)
 }
 
 /// Parses a UPOS field value into its corresponding [Upos] variant.
@@ -141,26 +123,29 @@ pub fn parse_upos(input: &str) -> Result<Upos> {
     };
 }
 
+///// /// Parses a feats field value into a Vector<(&str, &str)>
+///// pub fn parse_feats(input: &str) -> Result<Vector<&str, &str>> {
+/////
+///// }
+
 #[cfg(test)]
 mod tests {
+    use crate::conllu::parser::make_id_regex;
+
     use super::*;
 
     #[test]
     fn test_valid_id() {
-        assert!(is_valid_id("3"));
-        assert!(is_valid_id("34"));
-        assert!(is_valid_id("34-23"));
-        assert!(is_valid_id("4-3"));
+        let regex = make_id_regex();
 
-        assert!(!is_valid_id("4294967296"));
-        assert!(!is_valid_id("4294967296"));
-        assert!(!is_valid_id("4294967296-4294967296"));
-        assert!(!is_valid_id("4294967295-4294967296"));
-        assert!(!is_valid_id("4294967296-4294967295"));
+        assert!(is_valid_id(&regex, "3"));
+        assert!(is_valid_id(&regex, "34"));
+        assert!(is_valid_id(&regex, "34-23"));
+        assert!(is_valid_id(&regex, "4-3"));
 
-        assert!(!is_valid_id("aaa"));
-        assert!(!is_valid_id("-34"));
-        assert!(!is_valid_id("34-"));
+        assert!(!is_valid_id(&regex, "aaa"));
+        assert!(!is_valid_id(&regex, "-34"));
+        assert!(!is_valid_id(&regex, "34-"));
     }
 
     #[test]

@@ -1,6 +1,7 @@
 use self::line::parse_line;
 use super::treebank::{Sentence, Treebank};
 use anyhow::Result;
+use regex::Regex;
 
 pub mod line;
 pub mod sentence;
@@ -9,6 +10,8 @@ pub fn parse(lines: Vec<String>) -> Result<Treebank> {
     // parsing state
     let mut treebank = Treebank::default();
     let mut sentence = Sentence::default();
+
+    let regex = make_id_regex();
 
     // parse lines one by one
     for line in lines {
@@ -29,7 +32,7 @@ pub fn parse(lines: Vec<String>) -> Result<Treebank> {
                 sentence = Sentence::default();
             }
             line::Line::Word(line) => {
-                let word = sentence::parse_word(&line)?;
+                let word = sentence::parse_word(&regex, &line)?;
 
                 sentence.words.push(word);
             }
@@ -37,4 +40,8 @@ pub fn parse(lines: Vec<String>) -> Result<Treebank> {
     }
 
     Ok(treebank)
+}
+
+pub fn make_id_regex() -> Regex {
+    Regex::new(r"^(?:(\d+)-(\d+)|(\d+)\.(\d+)|\d+)$").unwrap()
 }
