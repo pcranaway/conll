@@ -8,19 +8,22 @@ pub struct Sentence {
     pub words: Vec<Word>,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Default)]
 pub struct Word {
     pub id: String,
-    pub form: String,
-    pub lemma: String,
-    pub upos: Upos,
-    pub xpos: String,
-    pub feats: Vec<(String, String)>,
+    pub form: Option<String>,
+    pub lemma: Option<String>,
+    pub upos: Option<Upos>,
+    pub xpos: Option<String>,
+    pub feats: Option<Vec<(String, String)>>,
     // TODO
-    pub head: String,
+    pub head: Option<String>,
     // TODO
-    pub deprel: String,
-    pub misc: String,
+    pub deprel: Option<String>,
+    // TODO
+    pub deps: Option<String>,
+    // TODO
+    pub misc: Option<String>,
 }
 
 #[derive(Debug, PartialEq)]
