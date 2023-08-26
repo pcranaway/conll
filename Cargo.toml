@@ -1,0 +1,10 @@
+[package]
+name = "conll"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "parse"
+
+[dependencies]
+anyhow = "1.0.75"
