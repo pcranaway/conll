@@ -1,14 +1,14 @@
-#[derive(Debug, Default)]
+#[derive(Debug, Default, PartialEq)]
 pub struct Treebank {
     pub sentences: Vec<Sentence>,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, PartialEq)]
 pub struct Sentence {
     pub words: Vec<Word>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Word {
     pub id: String,
     pub form: String,
@@ -23,7 +23,7 @@ pub struct Word {
     pub misc: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Upos {
     Adjective,
     Adposition,
