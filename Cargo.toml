@@ -5,8 +5,8 @@ edition = "2021"
 authors = ["Alexander P"]
 license = "MIT"
 description = "Parser for CoNLL(-U) Treebanks"
-repository = "https://github.com/pcranaway/conllu"
-homepage = "https://github.com/pcranaway/conllu"
+repository = "https://github.com/pcranaway/conll"
+homepage = "https://github.com/pcranaway/conll"
 keywords = ["conll", "conll-u", "conllu", "treebank", "nlp"]
 
 [[bin]]
