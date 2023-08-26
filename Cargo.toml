@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Alexander P"]
 license = "LICENSE"
+description = "Parser for CoNLL(-U) Treebanks"
 repository = "https://github.com/pcranaway/conllu"
 homepage = "https://github.com/pcranaway/conllu"
 keywords = ["conll", "conll-u", "conllu", "treebank", "nlp"]
